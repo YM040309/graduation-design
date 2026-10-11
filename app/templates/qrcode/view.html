@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}查看二维码 - 二维码生成系统{% endblock %}
+
+{% block content %}
+<div class="qrcode-view-section">
+    <h1>二维码详情</h1>
+    
+    <div class="qrcode-detail">
+        <div class="qrcode-preview-large">
+            <img src="{{ url_for('static', filename='qrcodes/' + qrcode.filename) }}" alt="二维码">
+        </div>
+        
+        <div class="qrcode-info-panel">
+            <h3>基本信息</h3>
+            <table class="info-table">
+                <tr>
+                    <th>内容:</th>
+                    <td>{{ qrcode.content }}</td>
+                </tr>
+                <tr>
+                    <th>类型:</th>
+                    <td>{{ qrcode.content_type }}</td>
+                </tr>
+                <tr>
+                    <th>文件名:</th>
+                    <td>{{ qrcode.filename }}</td>
+                </tr>
+                <tr>
+                    <th>创建时间:</th>
+                    <td>{{ qrcode.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                </tr>
+                <tr>
+                    <th>更新时间:</th>
+                    <td>{{ qrcode.updated_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                </tr>
+            </table>
+            
+            <h3>样式参数</h3>
+            <table class="info-table">
+                <tr>
+                    <th>格子大小:</th>
+                    <td>{{ qrcode.box_size }}</td>
+                </tr>
+                <tr>
+                    <th>边框大小:</th>
+                    <td>{{ qrcode.border }}</td>
+                </tr>
+                <tr>
+                    <th>纠错级别:</th>
+                    <td>{{ qrcode.error_correction }}</td>
+                </tr>
+                <tr>
+                    <th>前景色:</th>
+                    <td>
+                        <span class="color-preview" style="background-color: {{ qrcode.fill_color }}"></span>
+                        {{ qrcode.fill_color }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>背景色:</th>
+                    <td>
+                        <span class="color-preview" style="background-color: {{ qrcode.back_color }}"></span>
+                        {{ qrcode.back_color }}
+                    </td>
+                </tr>
+            </table>
+            
+            <div class="action-buttons">
+                <a href="{{ url_for('qrcode.download', id=qrcode.id) }}" class="btn btn-success">下载</a>
+                <a href="{{ url_for('qrcode.edit', id=qrcode.id) }}" class="btn btn-warning">编辑</a>
+                <button onclick="deleteQRCode({{ qrcode.id }})" class="btn btn-danger">删除</button>
+                <a href="{{ url_for('qrcode.history') }}" class="btn btn-secondary">返回列表</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function deleteQRCode(id) {
+    if (!confirm('确定要删除这个二维码吗?')) {
+        return;
+    }
+    
+    fetch(`/qrcode/delete/${id}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            window.location.href = '{{ url_for("qrcode.history") }}';
+        } else {
+            alert('删除失败: ' + data.message);
+        }
+    })
+    .catch(error => {
+        alert('删除失败: ' + error);
+    });
+}
+</script>
+{% endblock %}

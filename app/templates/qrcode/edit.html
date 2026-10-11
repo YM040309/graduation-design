@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}编辑二维码 - 二维码生成系统{% endblock %}
+
+{% block content %}
+<div class="qrcode-edit-section">
+    <h1>编辑二维码</h1>
+    
+    <form method="POST" action="{{ url_for('qrcode.edit', id=qrcode.id) }}" class="qrcode-form">
+        <div class="form-group">
+            <label for="content">二维码内容 *</label>
+            <textarea id="content" name="content" rows="4" required>{{ qrcode.content }}</textarea>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="box_size">格子大小</label>
+                <input type="number" id="box_size" name="box_size" value="{{ qrcode.box_size }}" min="1" max="50">
+            </div>
+            
+            <div class="form-group">
+                <label for="border">边框大小</label>
+                <input type="number" id="border" name="border" value="{{ qrcode.border }}" min="0" max="20">
+            </div>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="fill_color">前景色</label>
+                <input type="color" id="fill_color" name="fill_color" value="{{ qrcode.fill_color }}">
+            </div>
+            
+            <div class="form-group">
+                <label for="back_color">背景色</label>
+                <input type="color" id="back_color" name="back_color" value="{{ qrcode.back_color }}">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="error_correction">纠错级别</label>
+            <select id="error_correction" name="error_correction">
+                <option value="L" {% if qrcode.error_correction == 'L' %}selected{% endif %}>L - 7% 纠错</option>
+                <option value="M" {% if qrcode.error_correction == 'M' %}selected{% endif %}>M - 15% 纠错 (推荐)</option>
+                <option value="Q" {% if qrcode.error_correction == 'Q' %}selected{% endif %}>Q - 25% 纠错</option>
+                <option value="H" {% if qrcode.error_correction == 'H' %}selected{% endif %}>H - 30% 纠错</option>
+            </select>
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary btn-large">保存修改</button>
+            <a href="{{ url_for('qrcode.view', id=qrcode.id) }}" class="btn btn-secondary">取消</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

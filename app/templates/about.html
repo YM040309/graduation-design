@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}关于 - 二维码生成系统{% endblock %}
+
+{% block content %}
+<div class="about-section">
+    <h1>关于二维码生成系统</h1>
+    
+    <div class="about-content">
+        <h2>系统简介</h2>
+        <p>这是一个基于Python和Flask开发的本地化二维码生成系统,旨在提供安全、高效、易用的二维码生成解决方案。</p>
+        
+        <h2>技术栈</h2>
+        <ul>
+            <li><strong>后端框架:</strong> Flask</li>
+            <li><strong>数据库:</strong> SQLite (可扩展为MySQL/PostgreSQL)</li>
+            <li><strong>二维码生成:</strong> qrcode + Pillow</li>
+            <li><strong>用户认证:</strong> Flask-Login</li>
+        </ul>
+        
+        <h2>主要功能</h2>
+        <ul>
+            <li>用户注册和登录</li>
+            <li>单个二维码生成</li>
+            <li>批量二维码生成</li>
+            <li>二维码样式定制</li>
+            <li>历史记录管理</li>
+            <li>二维码编辑和删除</li>
+            <li>二维码下载</li>
+        </ul>
+        
+        <h2>安全特性</h2>
+        <ul>
+            <li>本地部署,数据不经过第三方服务器</li>
+            <li>用户密码加密存储</li>
+            <li>基于用户的权限控制</li>
+            <li>防止SQL注入和XSS攻击</li>
+        </ul>
+        
+        <h2>版本信息</h2>
+        <p><strong>版本:</strong> 1.0.0</p>
+        <p><strong>发布日期:</strong> 2026-01-27</p>
+    </div>
+</div>
+{% endblock %}

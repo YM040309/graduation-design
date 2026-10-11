@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}生成二维码 - 二维码生成系统{% endblock %}
+
+{% block content %}
+<div class="qrcode-generate-section">
+    <h1>生成二维码</h1>
+    
+    <form method="POST" action="{{ url_for('qrcode.generate') }}" class="qrcode-form">
+        <div class="form-group">
+            <label for="content">二维码内容 *</label>
+            <textarea id="content" name="content" rows="4" required placeholder="输入文本、URL、邮箱或电话号码"></textarea>
+            <small>支持文本、URL、邮箱、电话等多种类型</small>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="box_size">格子大小</label>
+                <input type="number" id="box_size" name="box_size" value="10" min="1" max="50">
+            </div>
+            
+            <div class="form-group">
+                <label for="border">边框大小</label>
+                <input type="number" id="border" name="border" value="4" min="0" max="20">
+            </div>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="fill_color">前景色</label>
+                <input type="color" id="fill_color" name="fill_color" value="#000000">
+            </div>
+            
+            <div class="form-group">
+                <label for="back_color">背景色</label>
+                <input type="color" id="back_color" name="back_color" value="#ffffff">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="error_correction">纠错级别</label>
+            <select id="error_correction" name="error_correction">
+                <option value="L">L - 7% 纠错</option>
+                <option value="M" selected>M - 15% 纠错 (推荐)</option>
+                <option value="Q">Q - 25% 纠错</option>
+                <option value="H">H - 30% 纠错</option>
+            </select>
+            <small>纠错级别越高,二维码越复杂,但容错能力越强</small>
+        </div>
+        
+        <button type="submit" class="btn btn-primary btn-large">生成二维码</button>
+    </form>
+</div>
+{% endblock %}
